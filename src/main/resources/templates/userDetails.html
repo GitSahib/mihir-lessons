@@ -5,8 +5,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1 th:text="${message}"></h1>
-<a href="profile">Profile</a>
-<a href="login">Login</a>
+<h1>User Details</h1>
+	<label>User Name:</label>
+	<p th:text="${user.username}"></p>
+	<label>Password:</label>
+	<p th:text="${user.password}"></p>
 </body>
 </html>
