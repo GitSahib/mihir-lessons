@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
+<div th:replace="fragments/fragments::head"></div>
 <body>
-<h1 th:text="${message}"></h1>
-<a href="profile">Profile</a>
-<a href="login">Login</a>
+	<div th:replace="fragments/fragments::navbar"></div>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h1 class="panel-title">Home page</h1>
+		</div>
+		<div class="panel-body">
+			<div>
+				<h1 th:text="${message}"></h1>
+			
+			<a href="profile">Profile</a> <a href="login">Login</a> <img
+				src="/static/images/header.jpg" />
+			</div>
+			<div class="imagePiece">
+			
+			</div>
+				
+		</div>
+
+	</div>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h1 class="panel-title">Form</h1>
+		</div>
+		<div class="panel-body">
+			<form id="form">
+				<div class="col-md-3">
+					<input type="text" class="form-control" id="mainInput"/>
+				</div>
+				<div class="col-md-3">
+					<button class="btn btn-primary" id="btnAdd">Add Elements</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+	<div th:replace="fragments/fragments::scripts"></div>
 </body>
 </html>

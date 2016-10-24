@@ -14,11 +14,13 @@ public class HomeController {
 		model.addAttribute("message","Welcome to Stpring boot Lesson1");
 		return "home";
 	}
+	
 	@RequestMapping(value="/profile",method=RequestMethod.GET)
 	public String profile(Model model)
 	{
 		return "profile";
 	}
+	
 	@RequestMapping(value="/*",method=RequestMethod.GET)
 	public String handl_404(Model model)
 	{

@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+a{ color: blue; font-size:20px; font-family:verdana;}
+img{ width:200px; border-radius:50%;}
+.imagePiece{
+	width:200px;
+	height:200px;
+	background:url("../images/header.jpg");
+	background-size:cover;
+	background-position: -100px -100px no-repeat;
+}
