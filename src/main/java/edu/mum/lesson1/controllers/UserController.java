@@ -1,8 +1,13 @@
 package edu.mum.lesson1.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,23 +22,20 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	@RequestMapping(value={"login"},method=RequestMethod.GET)
-	public String loginForm(@ModelAttribute("user") User user)
-	{		
-		return "login";
-	}
-	@RequestMapping(value={"login"},method=RequestMethod.POST)
-	public String loginFormPost(User user, Model model)
-	{		
-		if( userService.authenticat(user))
-		{
-			return "redirect:profile";
-		}
-		else
-		{
-			model.addAttribute("message","UserName or Password is not correct");
-			return "login";
-		}
+	public String login(@ModelAttribute("user") User userForm, BindingResult errors,String error, String logout) {
 		
+		if (error != null)
+			errors.rejectValue("password", "errors.username.or.password.is.invalid");			
+		if (logout != null)
+			errors.rejectValue("password", "message.you.are.loggedout.successfully");
+		else 
+		{
+			if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserDetails)
+			{
+				return "redirect:/profile";
+			}
+		}
+		return "login";
 	}
 	@RequestMapping(value={"register"},method=RequestMethod.GET)
 	public String registerForm(@ModelAttribute("user") User user)

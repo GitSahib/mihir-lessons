@@ -1,52 +1,132 @@
+
 package edu.mum.lesson1.models;
 
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class User {
+@Table(name = "user")
+public class User extends Model {
+
 	/**
-	 * @return the id
+	 * 
 	 */
-	public int getId() {
-		return id;
+	private static final long serialVersionUID = 1L;
+	@Size(min=4,max=30,message="Username is either too short or too long")
+	private String username;
+	@NotEmpty(message="Password should have some value")
+	private String password;
+	private String passwordConfirm;
+	@Transient
+	private String oldPassword;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
+	/*@OneToOne(mappedBy = "user")
+	Profile profile;*/
+
+	/**
+	 * @return the profile
+	 *//*
+	public Profile getProfile() {
+		return profile;
 	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	/**
-	 * @return the username
-	 */
+
+	*//**
+	 * @param profile
+	 *            the profile to set
+	 *//*
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}*/
+
+	// region -Getters and Setters
 	public String getUsername() {
 		return username;
 	}
-	/**
-	 * @param username the username to set
-	 */
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	/**
-	 * @return the password
-	 */
+
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String username;
-	private String password;
-	
+
+	@Transient
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", password=" + password + ", passwordConfirm=" + passwordConfirm
+				+ ", roles=" + roles + "]";
+	}
+
+	/**
+	 * @return the oldPassword
+	 */
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	/**
+	 * @param oldPassword
+	 *            the oldPassword to set
+	 */
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	/**
+	 * @param role
+	 * @return
+	 */
+	public boolean hasRole(String role) {
+		try {
+			Role theRole = this.getRoles().stream().filter(x -> x.getName().equals(role)).findFirst().get();
+			return theRole != null;
+		} catch (NoSuchElementException ex) {
+			return false;
+		}
+	}
+
+	// endregion
+
 }

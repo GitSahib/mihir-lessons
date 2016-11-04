@@ -6,12 +6,16 @@
 </head>
 <body>
 <h1>Login</h1>
-	<form th:object="${user}" method="post">
+	<form class="panel panel-primary" method="post"
+						th:action="@{/login}" th:object="${user}" autocomplete="on">
 		<label for="username">Your UserName:</label>
 		<input th:field="*{username}" id="username" />
 		<br/>
 		<label for="password">Your Password:</label>
 		<input th:field="*{password}" id="password" />
+		<p th:if="${#fields.hasErrors('password')}"
+									class="label label-danger" th:errors="*{password}">Incorrect
+									User Name or Password</p>
 		<br/>
 		<input type="submit" value="Submit" />
 	</form>
