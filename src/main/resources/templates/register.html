@@ -6,12 +6,22 @@
 </head>
 <body>
 <h1>Register</h1>
-	<form th:object="${user}" method="post">
+	<form class="panel panel-primary" method="post"
+						th:action="@{/register}" th:object="${user}" autocomplete="on">
 		<label for="username">Your UserName:</label>
 		<input th:field="*{username}" id="username" />
+		<p th:if="${#fields.hasErrors('username')}"
+			class="label label-danger" th:errors="*{username}">User Name Error</p>
 		<br/>
 		<label for="password">Your Password:</label>
-		<input th:field="*{password}" id="password" />
+		<input type="password" th:field="*{password}" id="password" />
+		<p th:if="${#fields.hasErrors('password')}"
+			class="label label-danger" th:errors="*{password}">Password Error</p>
+		<br/>
+		<label for="passwordConfirm">Confirm Password:</label>
+		<input type="password" th:field="*{passwordConfirm}" id="passwordConfirm" />
+		<p th:if="${#fields.hasErrors('passwordConfirm')}"
+			class="label label-danger" th:errors="*{passwordConfirm}">Passwords are not same</p>
 		<br/>
 		<input type="submit" value="Submit" />
 	</form>
